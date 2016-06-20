@@ -17,7 +17,7 @@ var pusherClient = pusher.Client{
 }
 
 // Instantiate a global instance of the database connection.
-var db, dbErr = sql.Open("mysql", "root:1234@/computer-showcase-forms")
+var db, dbErr = sql.Open("mysql", "root:1234@/computer_showcase_forms")
 
 func main(){
 	checkError(dbErr)

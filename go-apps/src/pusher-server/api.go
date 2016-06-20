@@ -13,7 +13,7 @@ func submitSABForm(formData url.Values) {
 	// fmt.Println("tax:", formData.Get("tax"))
 	
 	// Prepare the query
-	stmt, err := db.Prepare("INSERT INTO sab_form_submission (uniqname, is_medical_student, medical_school_code, phone_number, subtotal, tax, total, rms_transaction, register) VALUES (?,?,?,?,?,?,?,?,?)")
+	stmt, err := db.Prepare("INSERT INTO sab_form_submission (date_submitted, uniqname, is_medical_student, medical_school_code, phone_number, subtotal, tax, total, rms_transaction, register) VALUES (NOW(), ?,?,?,?,?,?,?,?,?)")
 	checkError(err)
 	defer stmt.Close()
 	

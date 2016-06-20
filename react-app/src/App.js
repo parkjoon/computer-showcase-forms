@@ -11,6 +11,7 @@ export default class App extends Component {
 		this.handleViewChange = this.handleViewChange.bind(this);
 		this.handleFormInputChange = this.handleFormInputChange.bind(this);
 		this.handleFormSubmit = this.handleFormSubmit.bind(this);
+		this.handleProfileLoad = this.handleProfileLoad.bind(this);
 	}
 
 	componentWillMount() {
@@ -20,6 +21,8 @@ export default class App extends Component {
 			encrypted: true
 		});
 		this.channel = this.pusher.subscribe('main_channel');
+
+		this.profile = null;
 		
 		this.setState({
 			idToken: this.getIdToken(),
@@ -27,7 +30,6 @@ export default class App extends Component {
 			formData: {
 				sabForm: {
 					...SABFormMetaData,
-					uniqname: "",
 		            isMedicalStudent: "",
 		            medicalSchoolCode: "",
 		            phoneNumber: "",
@@ -61,8 +63,16 @@ export default class App extends Component {
 	}
 	
 	handleFormSubmit(formShortName) {
-		console.log('Entered handleFormSubmit function.');
-		submitForm(this.state.formData[formShortName]);
+		console.log("handling form submit");
+		console.log(this.state.formData[formShortName]);
+		submitForm({
+			...this.state.formData[formShortName],
+			uniqname: this.profile.nickname
+		});
+	}
+
+	handleProfileLoad(profile) {
+		this.profile = profile;
 	}
 
 	getIdToken() {
@@ -100,12 +110,15 @@ export default class App extends Component {
 				handleViewChange={this.handleViewChange}
 				handleFormInputChange={this.handleFormInputChange}
 				handleFormSubmit={this.handleFormSubmit}
+				handleProfileLoad={this.handleProfileLoad}
 				formData={this.state.formData}
 			/>
 		);
 	}
 
 	render() {
+		console.log("rendering app");
+		console.log(this.state.formData);
 		// If the client has logged in, show the logged in view.
 		// Otherwise, show them the login view ('Home' component).
 		return this.state.idToken ? this.getLoggedInComponent() : this.getLoggedOutComponent();

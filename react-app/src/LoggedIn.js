@@ -18,10 +18,7 @@ export default class LoggedIn extends Component {
 			if(err) {
 				console.log("Error loading the Profile", err);
 			}
-			if(!profile.email.endsWith("@umich.edu") || profile.email_verified == "false") {
-				console.log("Your login credentials are not allowed access.", err);
-				window.location.href = "http://localhost:3000";
-			}
+			this.props.handleProfileLoad(profile);
 			this.setState({
 				profile: profile
 			});

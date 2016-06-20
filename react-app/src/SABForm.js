@@ -28,6 +28,7 @@ export default class SABForm extends Component {
     onFormReset() {
         this.props.handleFormInputChange({
             sabForm: {
+                ...SABFormMetaData,
 				uniqname: this.props.profile.nickname,
                 isMedicalStudent: "",
                 medicalSchoolCode: "",
@@ -128,6 +129,8 @@ export default class SABForm extends Component {
     }
 	
 	render() {
+        console.log("rendering sab form");
+        console.log(this.props.formData);
         const formData = this.props.formData;
 		return (
 			<div className="portlet box blue-hoki">
