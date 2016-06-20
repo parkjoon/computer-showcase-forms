@@ -28,6 +28,7 @@ export default class SABForm extends Component {
     onFormReset() {
         this.props.handleFormInputChange({
             sabForm: {
+				uniqname: this.props.profile.nickname,
                 isMedicalStudent: "",
                 medicalSchoolCode: "",
                 phoneNumber: "",

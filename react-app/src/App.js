@@ -27,6 +27,7 @@ export default class App extends Component {
 			formData: {
 				sabForm: {
 					...SABFormMetaData,
+					uniqname: "",
 		            isMedicalStudent: "",
 		            medicalSchoolCode: "",
 		            phoneNumber: "",
