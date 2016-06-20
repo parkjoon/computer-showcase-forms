@@ -37,6 +37,13 @@ func submitForm(res http.ResponseWriter, req *http.Request) {
 	
 	// fmt.Println("tax:", req.Form["tax"])
 	
+	switch req.FormValue("shortName") {
+		case "sabForm":
+			submitSABForm(req.Form)
+		default:
+			panic("submitForm: Unrecognized form!")
+	}
+	
 	res.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
 	res.Header().Set("Access-Control-Allow-Credentials", "true")
 }
