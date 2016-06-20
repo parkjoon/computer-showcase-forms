@@ -1,10 +1,12 @@
 package main
 
 import (
+	"database/sql"
 	"log"
 	"net/http"
 	
 	"github.com/pusher/pusher-http-go"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 // Instantiate a global instance of the Pusher client.
@@ -14,11 +16,27 @@ var pusherClient = pusher.Client{
 	Secret:	"c4825c4c1ba449f209a9",
 }
 
+// Instantiate a global instance of the database connection.
+var db, dbErr = sql.Open("mysql", "root:1234@/computer-showcase-forms")
+
 func main(){
+	if dbErr != nil {
+		// Example purpose. Use proper error handling instead of panic.
+		panic(dbErr.Error())
+	}
+	defer db.Close()
+	
+	// Open doesn't open a connection. Validate DSN data:
+	dbErr = db.Ping()
+	if dbErr != nil {
+		// Example purpose. Use proper error handling instead of panic.
+		panic(dbErr.Error())
+	}
+	
 	// Instantiate a custom router defined in 'router.go'.
 	log.Println("Creating a new router instance...")
 	router := NewRouter()
-
+	
 	log.Println("Starting the HTTP server...")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
