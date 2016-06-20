@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 export const SABFormMetaData = {
 	name: "Student Account Billing",
+	shortName: "sabForm",
 	description: "a form for student account billing purchases",
 	paths: [
 		{
@@ -13,15 +14,10 @@ export const SABFormMetaData = {
 };
 
 export default class SABForm extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     onChange(event, fieldName) {
         let newFormData = {
             ...this.props.formData
         };
-
         newFormData[fieldName] = event.target.value;
 
         this.props.handleFormInputChange({
@@ -39,14 +35,15 @@ export default class SABForm extends Component {
                 tax: "",
                 total: "",
                 rmsTransaction: "",
-                register: "",
-                agreed: ""
+                register: ""
             }
         });
     }
 
     onSubmit(event) {
         event.preventDefault();
+		// TODO: Need to ensure that the "I Agree" checkbox has been checked.
+		this.props.handleFormSubmit(SABFormMetaData.shortName);
     }
 
     getCustomerAgreementText() {
@@ -128,10 +125,8 @@ export default class SABForm extends Component {
             </select>                
         );
     }
-
+	
 	render() {
-        console.log('Rendering SAB Form.');
-        console.log(this.props.formData);
         const formData = this.props.formData;
 		return (
 			<div className="portlet box blue-hoki">
@@ -209,7 +204,7 @@ export default class SABForm extends Component {
                                         <div className="portlet-body">{this.getCustomerAgreementText()}</div>
                                     </div>
                                     <label id="field9" className="mt-checkbox">
-                                        <input type="checkbox" /> I Agree
+                                        <input type="checkbox" value="yes" /> I Agree
                                         <span></span>
                                     </label>
                                 </div>

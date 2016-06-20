@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Home from './Home';
 import LoggedIn from './LoggedIn';
 import { ReportsMetaData } from './Reports';
+import { SABFormMetaData } from './SABForm';
 
 export default class App extends Component {
 	constructor(props) {
@@ -13,11 +14,17 @@ export default class App extends Component {
 	componentWillMount() {
 		this.lock = new Auth0Lock(this.props.clientID, this.props.domain);
 		
+		this.pusher = new Pusher('ff391f34967f5ad6ba1c', {
+			encrypted: true
+		});
+		this.channel = this.pusher.subscribe('main_channel');
+		
 		this.setState({
 			idToken: this.getIdToken(),
 			currentView: ReportsMetaData,
 			formData: {
 				sabForm: {
+					...SABFormMetaData,
 		            isMedicalStudent: "",
 		            medicalSchoolCode: "",
 		            phoneNumber: "",
@@ -25,10 +32,16 @@ export default class App extends Component {
 		            tax: "",
 		            total: "",
 		            rmsTransaction: "",
-		            register: "",
-		            agreed: ""
+		            register: ""
 				}
 			}
+		});
+	}
+	
+	componentDidMount() {
+		this.channel.bind('my-event', (data) => {
+			console.log('An event was triggered with data:');
+			console.log(data);
 		});
 	}
 
@@ -39,11 +52,13 @@ export default class App extends Component {
 	}
 
 	handleFormInputChange(formData) {
-		console.log('Handling form input change in App.js');
-		console.log(formData);
 		this.setState({
 			formData: formData
 		});
+	}
+	
+	handleFormSubmit(formShortName) {
+		let formData = this.state[formShortName];
 	}
 
 	getIdToken() {
@@ -80,6 +95,7 @@ export default class App extends Component {
 				currentView={this.state.currentView}
 				handleViewChange={this.handleViewChange}
 				handleFormInputChange={this.handleFormInputChange}
+				handleFormSubmit={this.handleFormSubmit}
 				formData={this.state.formData}
 			/>
 		);

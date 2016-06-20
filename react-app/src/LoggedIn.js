@@ -41,7 +41,14 @@ export default class LoggedIn extends Component {
 	}
 
 	getSABFormComponent() {
-		return <SABForm profile={this.state.profile} handleFormInputChange={this.props.handleFormInputChange} formData={this.props.formData.sabForm} />
+		return (
+			<SABForm
+				profile={this.state.profile}
+				handleFormInputChange={this.props.handleFormInputChange}
+				handleFormSubmit={this.props.handleFormSubmit}
+				formData={this.props.formData.sabForm}
+			/>
+		);
 	}
 
 	getPaths(paths) {
