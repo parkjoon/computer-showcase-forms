@@ -20,18 +20,12 @@ var pusherClient = pusher.Client{
 var db, dbErr = sql.Open("mysql", "root:1234@/computer-showcase-forms")
 
 func main(){
-	if dbErr != nil {
-		// Example purpose. Use proper error handling instead of panic.
-		panic(dbErr.Error())
-	}
+	checkError(dbErr)
 	defer db.Close()
 	
 	// Open doesn't open a connection. Validate DSN data:
 	dbErr = db.Ping()
-	if dbErr != nil {
-		// Example purpose. Use proper error handling instead of panic.
-		panic(dbErr.Error())
-	}
+	checkError(dbErr)
 	
 	// Instantiate a custom router defined in 'router.go'.
 	log.Println("Creating a new router instance...")

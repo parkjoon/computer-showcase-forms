@@ -30,10 +30,7 @@ func submitForm(res http.ResponseWriter, req *http.Request) {
 	// fmt.Printf("%q", dump)
 	
 	err := req.ParseForm()
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
+	checkError(err)
 	
 	// fmt.Println("tax:", req.Form["tax"])
 	
