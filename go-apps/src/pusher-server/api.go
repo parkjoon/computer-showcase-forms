@@ -3,8 +3,6 @@ package main
 
 import (
 	// "database/sql"
-	// "fmt"
-	"log"
 	"net/url"
 	
     // _ "github.com/go-sql-driver/mysql"
