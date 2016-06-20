@@ -17,3 +17,7 @@ func getTestData(res http.ResponseWriter, req *http.Request) {
 func getForm(res http.ResponseWriter, req *http.Request) {
 	log.Print("handlers.go: entered getForm()")
 }
+
+func submitForm(res http.ResponseWriter, req *http.Request) {
+	log.Print("handlers.go: entered submitForm()")
+}

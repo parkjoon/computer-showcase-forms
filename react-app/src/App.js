@@ -3,6 +3,7 @@ import Home from './Home';
 import LoggedIn from './LoggedIn';
 import { ReportsMetaData } from './Reports';
 import { SABFormMetaData } from './SABForm';
+import http from 'http';
 
 export default class App extends Component {
 	constructor(props) {
@@ -58,7 +59,8 @@ export default class App extends Component {
 	}
 	
 	handleFormSubmit(formShortName) {
-		let formData = this.state[formShortName];
+		console.log('Entered handleFormSubmit function.');
+		
 	}
 
 	getIdToken() {

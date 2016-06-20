@@ -30,4 +30,10 @@ var routes = Routes {
 		"/form",
 		getForm,
 	},
+	Route {
+		"SubmitForm",
+		"POST",
+		"/submitForm",
+		submitForm,
+	},
 }
