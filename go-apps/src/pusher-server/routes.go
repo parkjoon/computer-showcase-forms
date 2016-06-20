@@ -25,12 +25,6 @@ var routes = Routes {
 		getTestData,
 	},
 	Route {
-		"Form",
-		"GET",
-		"/form",
-		getForm,
-	},
-	Route {
 		"SubmitForm",
 		"POST",
 		"/submitForm",
