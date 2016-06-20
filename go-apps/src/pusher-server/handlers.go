@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"net/http/httputil"
 )
 
 // Return the static data provided in 'test_data.go'. 
@@ -20,4 +21,14 @@ func getForm(res http.ResponseWriter, req *http.Request) {
 
 func submitForm(res http.ResponseWriter, req *http.Request) {
 	log.Print("handlers.go: entered submitForm()")
+	
+	dump, err := httputil.DumpRequest(req, true)
+	if err != nil {
+		http.Error(res, fmt.Sprint(err), http.StatusInternalServerError)
+		return
+	}
+	fmt.Printf("%q", dump)
+	
+	res.Header().Set("Access-Control-Allow-Origin", "http://localhost:3000")
+	res.Header().Set("Access-Control-Allow-Credentials", "true")
 }

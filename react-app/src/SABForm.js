@@ -142,7 +142,7 @@ export default class SABForm extends Component {
                                 <label className="col-md-3 control-label">Uniqname:</label>
                                 <div className="col-md-4">
                                     <input type="text" className="form-control" disabled placeholder={this.props.profile.nickname} />
-                                    <span className="help-block"> I confirm that the above username is correct. </span>
+                                    <span className="help-block"> I confirm that the above Uniqname is correct. </span>
                                 </div>
                             </div>
 

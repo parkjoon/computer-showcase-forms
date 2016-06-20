@@ -3,13 +3,14 @@ import Home from './Home';
 import LoggedIn from './LoggedIn';
 import { ReportsMetaData } from './Reports';
 import { SABFormMetaData } from './SABForm';
-import http from 'http';
+import { submitForm } from './api';
 
 export default class App extends Component {
 	constructor(props) {
 		super(props);
 		this.handleViewChange = this.handleViewChange.bind(this);
 		this.handleFormInputChange = this.handleFormInputChange.bind(this);
+		this.handleFormSubmit = this.handleFormSubmit.bind(this);
 	}
 
 	componentWillMount() {
@@ -60,7 +61,7 @@ export default class App extends Component {
 	
 	handleFormSubmit(formShortName) {
 		console.log('Entered handleFormSubmit function.');
-		
+		submitForm(this.state.formData[formShortName]);
 	}
 
 	getIdToken() {
