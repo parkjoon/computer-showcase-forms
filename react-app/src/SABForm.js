@@ -14,6 +14,16 @@ export const SABFormMetaData = {
 };
 
 export default class SABForm extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            agreed: false
+        }
+
+        this.onAgree = this.onAgree.bind(this);
+    }
+
     onChange(event, fieldName) {
         let newFormData = {
             ...this.props.formData
@@ -31,21 +41,42 @@ export default class SABForm extends Component {
                 ...SABFormMetaData,
 				uniqname: this.props.profile.nickname,
                 isMedicalStudent: "",
-                medicalSchoolCode: "",
+                medicalSchoolCode: "M1",
                 phoneNumber: "",
                 subtotal: "",
                 tax: "",
                 total: "",
                 rmsTransaction: "",
-                register: ""
+                register: "Central - 1"
             }
         });
     }
 
     onSubmit(event) {
         event.preventDefault();
+
+        if(this.props.formData.isMedicalStudent == ""
+            || this.props.formData.phoneNumber == ""
+            || this.props.formData.subtotal == ""
+            || this.props.formData.tax == ""
+            || this.props.formData.total == ""
+            || this.props.formData.rmsTransaction == "") {
+            alert("Please fill out all the fields!");
+            return;
+        }
+        else if(!this.state.agreed) {
+            alert("You must agree to the terms to submit this form!");
+            return;
+        }
+
 		// TODO: Need to ensure that the "I Agree" checkbox has been checked.
 		this.props.handleFormSubmit(SABFormMetaData.shortName);
+    }
+
+    onAgree() {
+        this.setState({
+            agreed: !this.state.agreed
+        });
     }
 
     getCustomerAgreementText() {
@@ -57,11 +88,11 @@ export default class SABForm extends Component {
             return (
                 <div id="field1" className="mt-radio-inline">
                     <label className="mt-radio">
-                        <input type="radio" id="isMedicalStudentOption" value="1" checked onChange={(event) => this.onChange(event, 'isMedicalStudent')} /> Yes
+                        <input type="radio" id="isMedicalStudentOption" required value="1" checked onChange={(event) => this.onChange(event, 'isMedicalStudent')} /> Yes
                         <span></span>
                     </label>
                     <label className="mt-radio">
-                        <input type="radio" id="isNotMedicalStudentOption" value="0" onChange={(event) => this.onChange(event, 'isMedicalStudent')} /> No
+                        <input type="radio" id="isNotMedicalStudentOption" required value="0" onChange={(event) => this.onChange(event, 'isMedicalStudent')} /> No
                         <span></span>
                     </label>
                 </div>
@@ -120,7 +151,7 @@ export default class SABForm extends Component {
                 <option>Central - 2</option>
                 <option>Central - 3</option>
                 <option>Central - 4 (Repair)</option>
-                <option>Central - 5 (Shipping)</option>
+                <option>Central - 6 (Shipping)</option>
                 <option>North - 5</option>
                 <option>North - 6 (Manager's Desk)</option>
                 <option>North - 7 (Repair)</option>
@@ -129,8 +160,6 @@ export default class SABForm extends Component {
     }
 	
 	render() {
-        console.log("rendering sab form");
-        console.log(this.props.formData);
         const formData = this.props.formData;
 		return (
 			<div className="portlet box blue-hoki">
@@ -208,7 +237,7 @@ export default class SABForm extends Component {
                                         <div className="portlet-body">{this.getCustomerAgreementText()}</div>
                                     </div>
                                     <label id="field9" className="mt-checkbox">
-                                        <input type="checkbox" value="yes" /> I Agree
+                                        <input type="checkbox" value="yes" onChange={this.onAgree} /> I Agree
                                         <span></span>
                                     </label>
                                 </div>

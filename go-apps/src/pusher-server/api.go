@@ -20,4 +20,13 @@ func submitSABForm(formData url.Values) {
 	res, err := stmt.Exec(formData.Get("uniqname"), formData.Get("isMedicalStudent"), formData.Get("medicalSchoolCode"), formData.Get("phoneNumber"), formData.Get("subtotal"), formData.Get("tax"), formData.Get("total"), formData.Get("rmsTransaction"), formData.Get("register"))
     checkError(err)
 	log.Println(res)
+
+	// Pusher event trigger
+	register := formData.Get("register")
+
+	// TODO: Implement the other registers
+	if register == "Central - 1" {
+		event_data := map[string]string{"register": "central1", "total": formData.Get("total")}
+   		pusherClient.Trigger("reports_channel", "sab-form-submitted", event_data)
+	}
 }
