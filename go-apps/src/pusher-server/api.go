@@ -22,11 +22,28 @@ func submitSABForm(formData url.Values) {
 	log.Println(res)
 
 	// Pusher event trigger
-	register := formData.Get("register")
-
-	// TODO: Implement the other registers
-	if register == "Central - 1" {
-		event_data := map[string]string{"register": "central1", "total": formData.Get("total")}
-   		pusherClient.Trigger("reports_channel", "sab-form-submitted", event_data)
+	var register string
+	switch formData.Get("register") {
+		case "Central - 1":
+			register = "central1"
+		case "Central - 2":
+			register = "central2"
+		case "Central - 3":
+			register = "central3"
+		case "Central - 4 (Repair)":
+			register = "central4"
+		case "Central - 6 (Shipping)":
+			register = "central6"
+		case "North - 5":
+			register = "north5"
+		case "North - 6 (Manager's Desk)":
+			register = "north6"
+		case "North - 7 (Repair)":
+			register = "north7"
+		default:
+		    panic("unrecognized reigster")
 	}
+
+	event_data := map[string]string{"register": register, "total": formData.Get("total")}
+	pusherClient.Trigger("reports_channel", "sab-form-submitted", event_data)
 }
