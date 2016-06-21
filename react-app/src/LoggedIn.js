@@ -34,7 +34,7 @@ export default class LoggedIn extends Component {
 	}
 
 	getReportsComponent() {
-		return <Reports profile={this.state.profile} reportsData={this.props.reportsData} />
+		return <Reports profile={this.state.profile} reportsData={this.props.reportsData} handleReportsUpdate={this.props.handleReportsUpdate} />
 	}
 
 	getSABFormComponent() {

@@ -1,6 +1,26 @@
 import Http from 'http';
 import Querystring from 'querystring';
 
+export function getReportsData() {
+	var options = {
+		port: '8080',
+		path: '/reportsData',
+		method: 'GET',
+		headers: {
+			accept: 'application/json'
+		}
+	};
+
+	var req = Http.request(options, (res) => {
+		console.log(res);
+		res.on('data', (data) => {
+			console.log(data);
+		});
+	});
+
+	req.end();
+}
+
 export function submitForm(formData) {
 	// Build the post string from an object
 	var reqData = Querystring.stringify(formData);

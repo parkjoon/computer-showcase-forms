@@ -3,7 +3,7 @@ import Home from './Home';
 import LoggedIn from './LoggedIn';
 import { ReportsMetaData } from './Reports';
 import { SABFormMetaData } from './SABForm';
-import { submitForm } from './api';
+import { getReportsData, submitForm } from './api';
 
 export default class App extends Component {
 	constructor(props) {
@@ -12,6 +12,7 @@ export default class App extends Component {
 		this.handleFormInputChange = this.handleFormInputChange.bind(this);
 		this.handleFormSubmit = this.handleFormSubmit.bind(this);
 		this.handleProfileLoad = this.handleProfileLoad.bind(this);
+		this.handleReportsUpdate = this.handleReportsUpdate.bind(this);
 	}
 
 	componentWillMount() {
@@ -39,7 +40,6 @@ export default class App extends Component {
 		            register: "Central - 1"
 				}
 			},
-			// TODO: do a get request to get the current totals
 			reportsData: {
 				central1: 0.00,
 				central2: 0.00,
@@ -87,6 +87,12 @@ export default class App extends Component {
 		});
 	}
 
+	handleReportsUpdate() {
+		this.setState({
+			...getReportsData()
+		});
+	}
+
 	handleProfileLoad(profile) {
 		this.profile = profile;
 	}
@@ -129,6 +135,7 @@ export default class App extends Component {
 				handleProfileLoad={this.handleProfileLoad}
 				formData={this.state.formData}
 				reportsData={this.state.reportsData}
+				handleReportsUpdate={this.handleReportsUpdate}
 			/>
 		);
 	}

@@ -8,6 +8,10 @@ export const ReportsMetaData = {
 };
 
 export default class Reports extends Component {
+	componentDidMount() {
+		this.props.handleReportsUpdate();
+	}
+	
 	render() {
 		let updatedTimeText = (this.props.updatedTime) ? ` The reports were updated on ${this.props.updatedTime}` : " The reports are not accurate and will need updating." ;
 

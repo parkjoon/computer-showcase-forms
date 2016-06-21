@@ -19,10 +19,10 @@ type Routes []Route
 // Instantiate a container of routes.
 var routes = Routes {
 	Route {
-		"TestData",
+		"ReportsData",
 		"GET",
-		"/testData",
-		getTestData,
+		"/reportsData",
+		getReportsData,
 	},
 	Route {
 		"SubmitForm",
