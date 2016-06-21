@@ -88,8 +88,10 @@ export default class App extends Component {
 	}
 
 	handleReportsUpdate() {
-		this.setState({
-			...getReportsData()
+		let reportsData = getReportsData((reportsData) => {
+			this.setState({
+				reportsData: reportsData
+			});
 		});
 	}
 

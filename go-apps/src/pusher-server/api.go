@@ -2,41 +2,39 @@
 package main
 
 import (
-	"encoding/json"
 	"log"
-	"net/http"
 	"net/url"
 	"strconv"
 	"time"
 )
 
 type SABReports struct {
-    central1 	float64		`json:"central1,string"`
-    central2 	float64		`json:"central2,string"`
-	central3 	float64		`json:"central3,string"`
-	central4 	float64		`json:"central4,string"`
-	central6	float64		`json:"central6,string"`
-	north5  	float64		`json:"north5,string"`
-	north6 		float64		`json:"north6,string"`
-	north7 		float64		`json:"north7,string"`
-    updatedTime	time.Time
+    Central1 	float64		`json:"central1"`
+    Central2 	float64		`json:"central2"`
+	Central3 	float64		`json:"central3"`
+	Central4 	float64		`json:"central4"`
+	Central6	float64		`json:"central6"`
+	North5  	float64		`json:"north5"`
+	North6 		float64		`json:"north6"`
+	North7 		float64		`json:"north7"`
+    UpdatedTime	time.Time	`json:"updatedTime"`
 }
 
-func notifySABReports(res http.ResponseWriter) {
+func notifySABReports() SABReports {
     rows, err := db.Query("SELECT sfs.register, sfs.total FROM sab_form_submission AS sfs WHERE DATE(sfs.date_submitted) = CURDATE()")
     checkError(err)
 	defer rows.Close()
 
 	reports := SABReports{
-		central1: 0.00, 
-	    central2: 0.00, 
-		central3: 0.00, 
-		central4: 0.00, 
-		central6: 0.00,
-		north5: 0.00,  
-		north6: 0.00, 	
-		north7: 0.00, 	
-	    updatedTime: time.Now(),
+		Central1: 0.00, 
+	    Central2: 0.00, 
+		Central3: 0.00, 
+		Central4: 0.00, 
+		Central6: 0.00,
+		North5: 0.00,  
+		North6: 0.00, 	
+		North7: 0.00, 	
+	    UpdatedTime: time.Now(),
 	}
 
     for rows.Next() {
@@ -48,64 +46,49 @@ func notifySABReports(res http.ResponseWriter) {
 			case "Central - 1":
 				totalToAdd, err := strconv.ParseFloat(total, 64)
 				checkError(err)
-				newTotal := reports.central1 + totalToAdd
-				newTotalStr := newTotal
-				reports.central1 = newTotalStr
+				newTotal := reports.Central1 + totalToAdd
+				reports.Central1 = newTotal
 			case "Central - 2":
 				totalToAdd, err := strconv.ParseFloat(total, 64)
 				checkError(err)
-				newTotal := reports.central2 + totalToAdd
-				newTotalStr := newTotal
-				reports.central2 = newTotalStr
+				newTotal := reports.Central2 + totalToAdd
+				reports.Central2 = newTotal
 			case "Central - 3":
 				totalToAdd, err := strconv.ParseFloat(total, 64)
 				checkError(err)
-				newTotal := reports.central3 + totalToAdd
-				newTotalStr := newTotal
-				reports.central3 = newTotalStr
+				newTotal := reports.Central3 + totalToAdd
+				reports.Central3 = newTotal
 			case "Central - 4 (Repair)":
 				totalToAdd, err := strconv.ParseFloat(total, 64)
 				checkError(err)
-				newTotal := reports.central4 + totalToAdd
-				newTotalStr := newTotal
-				reports.central4 = newTotalStr
+				newTotal := reports.Central4 + totalToAdd
+				reports.Central4 = newTotal
 			case "Central - 6 (Shipping)":
 				totalToAdd, err := strconv.ParseFloat(total, 64)
 				checkError(err)
-				newTotal := reports.central6 + totalToAdd
-				newTotalStr := newTotal
-				reports.central6 = newTotalStr
+				newTotal := reports.Central6 + totalToAdd
+				reports.Central6 = newTotal
 			case "North - 5":
 				totalToAdd, err := strconv.ParseFloat(total, 64)
 				checkError(err)
-				newTotal := reports.north5 + totalToAdd
-				newTotalStr := newTotal
-				reports.north5 = newTotalStr
+				newTotal := reports.North5 + totalToAdd
+				reports.North5 = newTotal
 			case "North - 6 (Manager's Desk)":
 				totalToAdd, err := strconv.ParseFloat(total, 64)
 				checkError(err)
-				newTotal := reports.north6 + totalToAdd
-				newTotalStr := newTotal
-				reports.north6 = newTotalStr
+				newTotal := reports.North6 + totalToAdd
+				reports.North6 = newTotal
 			case "North - 7 (Repair)":
 				totalToAdd, err := strconv.ParseFloat(total, 64)
 				checkError(err)
-				newTotal := reports.north7 + totalToAdd
-				newTotalStr := newTotal
-				reports.north7 = newTotalStr
+				newTotal := reports.North7 + totalToAdd
+				reports.North7 = newTotal
 			default:
-			    panic("unrecognized reigster")
+			    panic("unrecognized reigister")
 		}
     }
 	
-	res.WriteHeader(http.StatusOK)
-	res.Header().Set("Content-Type", "application/json")
-	
-	if err := json.NewEncoder(res).Encode(reports); err != nil {
-        panic(err)
-    }
-	
-	log.Println(res)
+	return reports
 }
 
 func submitSABForm(formData url.Values) {

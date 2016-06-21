@@ -1,7 +1,7 @@
 import Http from 'http';
 import Querystring from 'querystring';
 
-export function getReportsData() {
+export function getReportsData(callback) {
 	var options = {
 		port: '8080',
 		path: '/reportsData',
@@ -11,14 +11,16 @@ export function getReportsData() {
 		}
 	};
 
-	var req = Http.request(options, (res) => {
-		console.log(res);
-		res.on('data', (data) => {
-			console.log(data);
+	return Http.get(options, (response) => {
+		let reports;
+		response.on('data', (data) => {
+			reports = data;
+		});
+		response.on('end', () => {
+			// Data reception is done, do whatever with it!
+			callback(JSON.parse(reports));
 		});
 	});
-
-	req.end();
 }
 
 export function submitForm(formData) {
@@ -38,8 +40,8 @@ export function submitForm(formData) {
 
 	// Set up the request
 	var req = Http.request(reqOptions, (res) => {
-		res.on('data', (chunk) => {
-			console.log('Response: ' + chunk);
+		res.on('data', (data) => {
+			console.log('Response: ' + data);
 		});
 	});
 
