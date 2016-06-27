@@ -3,11 +3,26 @@ Computer Showcase Forms
 
 Description
 -------------
-- a web application used for form submissions and displaying real-time statistics based on those submissions
-- a significant improvement to an old project that used Google Forms and Google App Script
-very rushed and therefore contains a lot of inextensible spaghetti code
-
-----------
+ - a web application used for form submissions and displaying real-time statistics based on those submissions
+ - a significant improvement to an old project that used Google Forms and Google App Script
+ - **very** rushed and therefore contains a lot of inextensible spaghetti code
+	- some areas that could use refactoring
+		-  general
+			- restructure directories so that the files are not in one folder
+			- implement over HTTPS
+			- implement better error detecting and handling
+		- backend
+			- MySQL
+				- refactor the database schema to accommodate more types of forms and different types of reports
+				- change the data types of some columns to more accurately match what they represent
+			- Go
+				- get rid of all switch cases and use arrays
+				- implement better and more logging
+				- move sensitive data (e.g. database password) to a location only readable by the local machine
+		- frontend
+			- convert the form submission HTTP call to not use Querystring
+			- currently uses hardcoded variables and functions for forms (currently just Student Account Billing Form) and Reports (just the default reports for the registers); refactor every place that uses them to more generic containers
+			- consider more secure methods of storing and accessing Auth0 secrets
 
 Technologies and Respective Roles
 -------------
